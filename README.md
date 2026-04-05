@@ -111,24 +111,10 @@ Plan my workday
 
 ## 📊 Demo Output
 
-```json
-{
-  "input": "Plan my workday",
-  "plan": [
-    {
-      "task": "Emails",
-      "time": "9:00 AM"
-    },
-    {
-      "task": "Meetings",
-      "time": "1:00 PM"
-    },
-    {
-      "task": "Deep Work",
-      "time": "6:00 PM"
-    }
-  ]
-}
-👤 Author
+See example in API section above.
+
+---
+
+## 👤 Author
 
 Mayur Chauhan
