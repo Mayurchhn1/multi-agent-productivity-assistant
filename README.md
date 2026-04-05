@@ -27,3 +27,85 @@ This project implements a **multi-agent architecture** where a central orchestra
 ---
 
 ## 🔷 Architecture
+User Input → FastAPI API (/run)
+↓
+Orchestrator Agent
+↓
+┌────────────┼────────────┬────────────┐
+↓            ↓            ↓
+Task Agent   Calendar Agent   Research Agent
+↓            ↓                ↓
+Database     Scheduling       External API (MCP-style)
+---
+
+## 🔷 Tech Stack
+
+- Python
+- FastAPI
+- SQLite (Database)
+- Requests (External API)
+- Modular Multi-Agent Architecture
+
+---
+
+## 🔷 API Endpoint
+
+### POST /run
+
+#### Input:
+Plan my workday
+#### Output:
+```json
+{
+  "input": "Plan my workday",
+  "plan": [
+    {
+      "task": "Emails",
+      "time": "9:00 AM"
+    },
+    {
+      "task": "Meetings",
+      "time": "1:00 PM"
+    },
+    {
+      "task": "Deep Work",
+      "time": "6:00 PM"
+    }
+  ]
+}
+🔷 Key Features
+	•	Multi-agent coordination
+	•	Tool integration (MCP-style)
+	•	Structured data storage
+	•	Workflow automation
+	•	API-based system
+
+⸻
+
+🔷 Use Cases
+	•	Workday planning
+	•	Personal productivity
+	•	Project management
+	•	Learning schedule planning
+	•	Daily task automation
+
+⸻
+
+🔷 Future Improvements
+	•	Google Maps MCP integration
+	•	BigQuery MCP tools
+	•	Calendar API integration
+	•	Cloud deployment (Cloud Run)
+	•	Frontend dashboard
+
+⸻
+
+🔷 Demo Output
+
+(Add your screenshot here)
+
+⸻
+
+🔷 Author
+
+Mayur Chauhan
