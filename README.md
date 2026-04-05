@@ -102,7 +102,7 @@ Plan my workday
 
 🔷 Demo Output
 
-(Add your screenshot here)
+![Demo Output](output.png)
 
 ⸻
 
