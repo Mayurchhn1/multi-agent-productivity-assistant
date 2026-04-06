@@ -5,6 +5,9 @@
 
 # 🚀 Multi-Agent Productivity Assistant
 
+🌐 Live Demo: https://multi-agent-productivity-assistant-y8sv.onrender.com  
+📄 API Docs: https://multi-agent-productivity-assistant-y8sv.onrender.com/docs  
+
 An AI-powered multi-agent system that helps users manage tasks, schedules, and workflows using coordinated agents and external tools.
 
 ---
@@ -32,15 +35,7 @@ A modular **multi-agent architecture**:
 
 ## 🔷 Architecture
 
-User Input  
-↓  
-FastAPI API (/run)  
-↓  
-Orchestrator Agent  
-↓  
-Task Agent → Calendar Agent → Research Agent  
-↓  
-Database + External API  
+User → API (/run) → Orchestrator → Agents → Structured Output
 
 ---
 
@@ -59,62 +54,20 @@ Database + External API
 ### POST /run
 
 #### Input:
-Plan my workday
+```json
+{
+  "query": "Plan my workday"
+}
+```
+
 #### Output:
 ```json
 {
   "input": "Plan my workday",
   "plan": [
-    {
-      "task": "Emails",
-      "time": "9:00 AM"
-    },
-    {
-      "task": "Meetings",
-      "time": "1:00 PM"
-    },
-    {
-      "task": "Deep Work",
-      "time": "6:00 PM"
-    }
+    {"task": "Emails", "time": "9:00 AM"},
+    {"task": "Meetings", "time": "1:00 PM"},
+    {"task": "Deep Work", "time": "6:00 PM"}
   ]
 }
-## 🔷 Key Features
-
-- Multi-agent coordination
-- Tool integration (MCP-style)
-- Structured data storage
-- Workflow automation
-- API-based system
-
----
-
-## 🔷 Use Cases
-
-- Workday planning
-- Personal productivity
-- Project management
-- Learning schedule planning
-- Daily task automation
-
----
-
-## 🔷 Future Improvements
-
-- Google Maps MCP integration
-- BigQuery MCP tools
-- Calendar API integration
-- Cloud deployment (Cloud Run)
-- Frontend dashboard
-
----
-
-## 📊 Demo Output
-
-See example in API section above.
-
----
-
-## 👤 Author
-
-Mayur Chauhan
+```
