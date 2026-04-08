@@ -3,105 +3,95 @@
 ![Status](https://img.shields.io/badge/Status-Live-brightgreen)
 ![Deployment](https://img.shields.io/badge/Deployed-Render-blue)
 
-# 🚀 Multi-Agent Productivity Assistant
+# 🚀 AI Sales & Productivity Assistant
 
 🌐 Live Demo: https://multi-agent-productivity-assistant-y8sv.onrender.com  
 📄 API Docs: https://multi-agent-productivity-assistant-y8sv.onrender.com/docs  
- 
+
 ---
 
 ## 🚀 What This Project Solves
 
-Sales and business professionals lose time managing follow-ups, planning workdays, and organizing tasks.
+Sales and business professionals often spend excessive time:
+- Deciding when to follow up
+- Planning their workday
+- Prioritizing tasks
 
-This AI-powered multi-agent system automates:
-- Workday planning
-- Sales follow-ups
-- Task prioritization
+This assistant simplifies decision-making and improves productivity through a structured multi-agent system.
 
-It acts like a virtual assistant that thinks, plans, and executes workflows.
-
-💡 Designed to scale with real-world integrations like CRM, WhatsApp, and Calendar using MCP-style architecture.
 ---
 
-## 💼 Real Use Cases
+## 💼 Use Cases
 
 ### 1. Sales Follow-up Planning
-Input: "Plan my follow-up calls"
+- Identify lead type (Hot/Warm/Cold)
+- Suggest next action
+- Generate ready-to-use follow-up message
 
-Output:
-- Call warm leads (10 AM)
-- Send proposals (2 PM)
-- Check pending replies (5 PM)
+### 2. Daily Workday Planning
+- Automatically structure your day
+- Balance meetings, calls, and deep work
 
----
-
-### 2. Daily Productivity Planning
-Input: "Plan my workday"
-
-Output:
-- Emails (9 AM)
-- Meetings (1 PM)
-- Deep Work (6 PM)
+### 3. Task Prioritization
+- Identify high-impact tasks
+- Focus on revenue-generating activities
 
 ---
 
-## 🔷 Problem Statement
+## 🎯 Key Features
 
-Build a system that:
-- Manages tasks and schedules  
-- Uses multiple tools and data sources  
-- Executes multi-step workflows  
-- Provides API-based interaction  
-
----
-
-## 🔷 Solution Overview
-
-A modular **multi-agent architecture**:
-
-- 🧠 Orchestrator Agent – controls workflow  
-- 📋 Task Agent – generates tasks  
-- 📅 Calendar Agent – schedules tasks  
-- 🔎 Research Agent – enriches tasks  
+- 🧠 Multi-agent decision system  
+- 📊 Structured business-friendly output  
+- ⚡ FastAPI-powered backend  
+- 🔌 Ready for AI integration (Gemini / OpenAI)  
+- 🌐 Live deployed API  
 
 ---
 
-## 🔷 Architecture
-
-User → API (/run) → Orchestrator → Agents → Structured Output
-
----
-
-## 🔷 Tech Stack
+## 🛠️ Tech Stack
 
 - Python  
 - FastAPI  
-- SQLite  
-- Requests  
-- Multi-Agent Architecture  
+- REST API  
+- Render (Deployment)  
 
 ---
 
-## 🔷 API Endpoint
+## 📡 API Usage
 
-### POST /run
+### Endpoint:
+POST /run
 
-#### Input:
+### Example Output:
 ```json
 {
-  "query": "Plan my workday"
+  "input": "Client not responding after proposal",
+  "analysis": {
+    "lead_type": "Warm",
+    "confidence": "80%",
+    "priority": "Medium"
+  },
+  "action_plan": {
+    "next_step": "Follow-up",
+    "recommended_time": "1-2 days",
+    "channel": "Call + WhatsApp"
+  },
+  "message_suggestion": "Hi, just following up on our discussion. Let me know a convenient time to connect."
 }
-```
 
-#### Output:
-```json
-{
-  "input": "Plan my workday",
-  "plan": [
-    {"task": "Emails", "time": "9:00 AM"},
-    {"task": "Meetings", "time": "1:00 PM"},
-    {"task": "Deep Work", "time": "6:00 PM"}
-  ]
-}
-```
+---
+
+## 📸 Demo Preview
+
+### 🔹 API Testing (Swagger UI)
+![API Docs Screenshot](./screenshots/api-docs.png)
+
+### 🔹 Sample Output
+![Output Screenshot](./screenshots/output.png)
+
+---
+
+## 🎥 Demo Video
+
+Watch the demo here:  
+👉 https://your-video-link-here
