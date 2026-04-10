@@ -64,35 +64,4 @@ flowchart TD
 
     F --> G[Structured Output]
     G --> H[API Response]
-
-    ---
-    ## 🛠️ Tech Stack
-
-- Python  
-- FastAPI  
-- REST API  
-- Render (Deployment)  
-
----
-
-## 📡 API Usage
-
-### Endpoint:
-POST /run
-
-### Example Output:
-```json
-{
-  "input": "Client not responding after proposal",
-  "analysis": {
-    "lead_type": "Warm",
-    "confidence": "80%",
-    "priority": "Medium"
-  },
-  "action_plan": {
-    "next_step": "Follow-up",
-    "recommended_time": "1-2 days",
-    "channel": "Call + WhatsApp"
-  },
-  "message_suggestion": "Hi, just following up on our discussion. Let me know a convenient time to connect."
-}
+    ```
