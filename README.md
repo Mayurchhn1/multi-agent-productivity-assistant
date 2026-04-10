@@ -48,7 +48,25 @@ This assistant simplifies decision-making and improves productivity through a st
 
 ---
 
-## 🛠️ Tech Stack
+## 🧠 Architecture Diagram
+
+```mermaid
+flowchart TD
+    A[User Input] --> B[Orchestrator]
+
+    B --> C[Sales Agent]
+    B --> D[Task Agent]
+    B --> E[Planning Agent]
+
+    C --> F[Analysis]
+    D --> F
+    E --> F
+
+    F --> G[Structured Output]
+    G --> H[API Response]
+
+    ---
+    ## 🛠️ Tech Stack
 
 - Python  
 - FastAPI  
@@ -58,8 +76,6 @@ This assistant simplifies decision-making and improves productivity through a st
 ---
 
 ## 📡 API Usage
-
----
 
 ### Endpoint:
 POST /run
@@ -80,23 +96,3 @@ POST /run
   },
   "message_suggestion": "Hi, just following up on our discussion. Let me know a convenient time to connect."
 }
-```
-
----
-
-## 📸 Demo Preview
-
-### 🔹 API Testing (Swagger UI)
-![API Docs Screenshot](./screenshots/api-docs.png)
-
-### 🔹 Sample Output
-![Output Screenshot](./screenshots/output.png)
-
----
-
-## 🎥 Demo Video
-
-Watch the demo here:  
-https://your-video-link-here
-
----
