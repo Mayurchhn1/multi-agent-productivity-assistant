@@ -5,6 +5,7 @@
 
 # ⚡ AI Productivity Assistant  
 ### Multi-Agent Decision Engine for Smarter Execution
+### Turn goals into execution in seconds using AI agents
 
 🌐 **Live Demo:** https://592fb534-088a-42ef-9ccd-465d1dd6b11b-00-3ka2nxvaf4wzn.sisko.replit.dev/  
 📄 **API Docs:** https://592fb534-088a-42ef-9ccd-465d1dd6b11b-00-3ka2nxvaf4wzn.sisko.replit.dev/docs   
