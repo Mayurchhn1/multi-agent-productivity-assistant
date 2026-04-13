@@ -1,14 +1,17 @@
  ![Python](https://img.shields.io/badge/Python-3.10-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
 ![Status](https://img.shields.io/badge/Status-Live-brightgreen)
-![Deployment](https://img.shields.io/badge/Deployed-Render-blue)
+![Deployment](https://img.shields.io/badge/Deployed-Replit-blue)
 
 # ⚡ AI Productivity Assistant  
 ### Multi-Agent Decision Engine for Smarter Execution
 
-🌐 **Live Demo:** https://multi-agent-productivity-assistant-y8sv.onrender.com  
-📄 **API Docs:** https://multi-agent-productivity-assistant-y8sv.onrender.com/docs  
+🌐 **Live Demo:** https://592fb534-088a-42ef-9ccd-465d1dd6b11b-00-3ka2nxvaf4wzn.sisko.replit.dev/  
+📄 **API Docs:** https://592fb534-088a-42ef-9ccd-465d1dd6b11b-00-3ka2nxvaf4wzn.sisko.replit.dev/docs   
 
+## 📸 Demo Preview
+
+![App Screenshot](multi_agent_assistant_output.png)
 ---
 
 ## 🚀 Problem
