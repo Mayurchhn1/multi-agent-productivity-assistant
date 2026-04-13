@@ -1,18 +1,15 @@
-from app.agents.task_agent import create_tasks
-from app.agents.calendar_agent import schedule_tasks
-from app.agents.research_agent import enrich_task
+from app.llm import generate_ai_response
 
-def run_agent(user_input):
-    # Step 1: Create tasks
-    tasks = create_tasks(user_input)
+def run_agent(query):
+    print("🚀 MULTI-AGENT RUNNING")
 
-    # Step 2: Enrich tasks with external info
-    enriched_tasks = [enrich_task(t) for t in tasks]
-
-    # Step 3: Schedule tasks
-    schedule = schedule_tasks(enriched_tasks)
+    sales = generate_ai_response(f"Sales insight: {query}")
+    tasks = generate_ai_response(f"Action tasks: {query}")
+    planning = generate_ai_response(f"Execution plan: {query}")
 
     return {
-        "input": user_input,
-        "plan": schedule
+        "input": query,
+        "sales": sales,
+        "tasks": tasks,
+        "planning": planning
     }
