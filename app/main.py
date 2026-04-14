@@ -1,3 +1,5 @@
+from fastapi.responses import FileResponse
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -22,8 +24,8 @@ class QueryRequest(BaseModel):
     query: str
 
 @app.get("/")
-def home():
-    return {"message": "Multi-Agent Productivity Assistant Running"}
+def serve_home():
+    return FileResponse(os.path.join(os.getcwd(), "index.html"), media_type="text/html")
 
 # ✅ FIX: use orchestrator (multi-agent)
 @app.post("/run")
