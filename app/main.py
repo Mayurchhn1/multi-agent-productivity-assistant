@@ -25,7 +25,7 @@ class QueryRequest(BaseModel):
 
 @app.get("/")
 def serve_home():
-    return FileResponse(os.path.join(os.getcwd(), "index.html"), media_type="text/html")
+    return FileResponse(os.path.join(os.getcwd(), "..", "index.html"))
 
 # ✅ FIX: use orchestrator (multi-agent)
 @app.post("/run")
