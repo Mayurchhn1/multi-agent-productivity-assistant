@@ -133,7 +133,7 @@ async function runAI() {
         "🧠 Sales Agent analyzing...\n📋 Task Agent planning...\n📅 Strategy Agent structuring...";
     document.getElementById("output").style.display = "none";
 
-    const response = await fetch("http://localhost:8000/run", {
+    fetch("https://task-automation-ai-10.emergent.host/api/run-agent", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
