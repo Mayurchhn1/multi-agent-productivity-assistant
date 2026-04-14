@@ -1,20 +1,30 @@
+import os
+import requests
+
 def generate_ai_response(prompt):
-    print("⚡ DEMO MODE ACTIVE")
+    try:
+        response = requests.post(
+            "https://api.emergent.sh/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {os.getenv('EMERGENT_LLM_KEY')}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": "gpt-4o-mini",
+                "messages": [
+                    {"role": "system", "content": "You are a helpful AI sales assistant."},
+                    {"role": "user", "content": prompt}
+                ]
+            },
+            timeout=30  # ✅ IMPORTANT
+        )
 
-    if "Sales" in prompt:
-        return """• Lead is warm but disengaged  
-• Requires timely follow-up  
-• Risk of losing interest if delayed"""
+        data = response.json()
 
-    elif "Action" in prompt:
-        return """• Send follow-up email  
-• Call within 24 hours  
-• Share additional value (case study)"""
+        if "choices" not in data:
+            return f"Error: {data}"
 
-    elif "Execution" in prompt:
-        return """Morning: Follow-up emails  
-Afternoon: Client calls  
-Evening: Review pipeline"""
+        return data["choices"][0]["message"]["content"]
 
-    else:
-        return "AI response"
+    except Exception as e:
+        return f"Server error: {str(e)}"
