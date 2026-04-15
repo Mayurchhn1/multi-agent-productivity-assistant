@@ -1,104 +1,38 @@
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-Framework-000000?logo=flask&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Live-brightgreen)
+![Deployment](https://img.shields.io/badge/Deployed-Emergent.sh-7B61FF)
+
 # ⚡ AI Productivity Assistant: Multi-Agent Decision Engine
-### Replace Hours of Planning with Seconds of AI Execution
+### Built with Python, Flask, and Google Gemini 1.5
 
-[![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-Framework-009688.svg)](https://fastapi.tiangolo.com/)
-[![Gemini 1.5](https://img.shields.io/badge/Google_Cloud-Gemini_1.5-4285F4.svg)](https://deepmind.google/technologies/gemini/)
-[![Deployment](https://img.shields.io/badge/Deployed-Emergent.sh-7B61FF.svg)](https://app.emergent.sh/home)
+🌐 **Live Demo:** [task-automation-ai-10.preview.emergentagent.com](https://task-automation-ai-10.preview.emergentagent.com/home)  
 
----
+## 🚀 Overview
+A high-performance **Multi-Agent Decision Engine** developed for the **Google Cloud Gen AI Academy**. This project moves beyond simple LLM prompts, utilizing a specialized Flask-based orchestrator to manage agentic workflows.
 
-## 🌐 Live System
-🚀 **Live Demo:** https://task-automation-ai-10.preview.emergentagent.com/home  
-📄 **API Docs (Swagger):** https://task-automation-ai-10.preview.emergentagent.com/docs  
-
----
-
-## 🚀 The Vision: Beyond Chatbots
-
-Most AI tools today are passive — they generate answers.
-
-This system is built differently.
-
-Developed for the **Google Cloud Gen AI Academy (APAC Edition)**, this project introduces a **Multi-Agent Decision Engine** that converts business goals into structured, execution-ready workflows.
-
-Instead of just responding, the system:
-- Understands business context  
-- Prioritizes high-impact actions  
-- Generates clear execution plans  
-
-👉 It doesn’t just assist — it **thinks, decides, and executes**
+### 🧠 Agentic Architecture
+- **Orchestrator:** Google Gemini 1.5 Pro
+- **Specialized Agents:** Strategic Insight, Actionable Priority, and Workflow Execution.
+- **Backend:** Flask (Python 3) REST API.
 
 ---
 
-## ⚡ What Makes This Different?
+## 🛠️ Local Setup
+To run this project on your machine (macOS):
+```bash
+# Install dependencies
+pip3 install -r requirements.txt
 
-| Traditional AI | This System |
-|---------------|------------|
-| Gives answers | Drives execution |
-| Single response | Multi-agent reasoning |
-| Unstructured text | Structured outputs |
-| Passive assistance | Action-oriented intelligence |
-
----
-
-## 🧠 The Multi-Agent Core
-
-The system uses **three specialized AI agents**, each solving a critical part of the decision process:
-
-### 🧠 Strategic Insight Agent — *The What*
-- Understands intent and context  
-- Detects urgency and opportunity  
-- Evaluates lead quality  
+# Run the Flask server
+python3 main.py
 
 ---
 
-### 📋 Actionable Priority Agent — *The When*
-- Ranks tasks based on impact  
-- Identifies high-value actions  
-- Filters low-priority work  
+### 🏁 Final Submission Logic for Google Form
+When you fill out the form now, you can be 100% confident because:
+1.  **Code matches Environment:** You've confirmed it's Flask and Python3.
+2.  **README is Accurate:** No more FastAPI mentions.
+3.  **Command is Resolved:** You know to use `python3`.
 
----
-
-### 📅 Workflow Execution Agent — *The How*
-- Creates execution-ready plans  
-- Generates communication templates  
-- Defines timelines and next steps  
-
----
-
-👉 Final Output: **Structured, actionable, execution-ready plan**
-
----
-
-## ⚡ Example Output
-
-**Input:**  
-"Follow up with a warm lead who hasn’t responded in 3 days"
-
-**AI Output:**
-
-| Insight | Action | Execution |
-|--------|--------|----------|
-| Lead is warm but cooling | Send personalized follow-up | Email + WhatsApp + Reminder |
-| Risk of drop-off | Re-engage with urgency | Schedule call within 24 hrs |
-
-👉 Not just insight — **clear execution guidance**
-
----
-
-## 🛠️ Architecture
-
-```mermaid
-flowchart TD
-    A[User Business Goal] --> B{Gemini 1.5 Orchestrator}
-    
-    subgraph Agentic_Layer [Multi-Agent Decision Engine]
-    B --> C[Strategic Insight Agent]
-    B --> D[Actionable Priority Agent]
-    B --> E[Workflow Execution Agent]
-    end
-
-    C & D & E --> F[Structured Output Engine]
-    F --> G[FastAPI Backend]
-    G --> H[Execution-Ready Output]
+**One last check:** Does `python3 main.py` start the server on your Mac now, or do you get a "ModuleNotFoundError"? (If so, run `pip3 install flask flask-cors google-generativeai`).
