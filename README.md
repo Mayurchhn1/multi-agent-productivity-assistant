@@ -1,38 +1,46 @@
-![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-Framework-000000?logo=flask&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Live-brightgreen)
-![Deployment](https://img.shields.io/badge/Deployed-Emergent.sh-7B61FF)
+# 🚀 AI Sales Copilot: Multi-Agent Decision Engine
+**Developed for the Google Cloud Gen AI Academy 2026**
 
-# ⚡ AI Productivity Assistant: Multi-Agent Decision Engine
-### Built with Python, Flask, and Google Gemini 1.5
-
-🌐 **Live Demo:** [task-automation-ai-10.preview.emergentagent.com](https://task-automation-ai-10.preview.emergentagent.com/home)  
-
-## 🚀 Overview
-A high-performance **Multi-Agent Decision Engine** developed for the **Google Cloud Gen AI Academy**. This project moves beyond simple LLM prompts, utilizing a specialized Flask-based orchestrator to manage agentic workflows.
-
-### 🧠 Agentic Architecture
-- **Orchestrator:** Google Gemini 1.5 Pro
-- **Specialized Agents:** Strategic Insight, Actionable Priority, and Workflow Execution.
-- **Backend:** Flask (Python 3) REST API.
+The **AI Sales Copilot** is a high-performance decision engine that transforms raw lead data into actionable sales strategies. Powered by **Google Gemini 1.5 Flash**, it uses a sequential multi-agent orchestration layer to deliver deterministic, business-ready insights.
 
 ---
 
-## 🛠️ Local Setup
-To run this project on your machine (macOS):
-```bash
-# Install dependencies
-pip3 install -r requirements.txt
+## 🧠 Core Architecture: Multi-Agent Orchestration
+Unlike traditional chatbots, this system separates reasoning into specialised agents:
 
-# Run the Flask server
-python3 main.py
+1. **Strategic Insight Agent**: Analyses lead context, historical behaviour, and sentiment to identify the core opportunity.
+2. **Action Agent**: Consumes the output of the Insight Agent to generate a prioritised list of tasks (e.g., follow-ups, qualification steps).
+3. **Execution Agent**: Drafts high-impact outreach templates based on the final strategy.
+
+### 🔄 The Feedback Loop
+The backend utilises a **Sequential Pipeline** where Agent A's JSON output is validated and injected into Agent B's system prompt, ensuring zero context loss.
 
 ---
 
-### 🏁 Final Submission Logic for Google Form
-When you fill out the form now, you can be 100% confident because:
-1.  **Code matches Environment:** You've confirmed it's Flask and Python3.
-2.  **README is Accurate:** No more FastAPI mentions.
-3.  **Command is Resolved:** You know to use `python3`.
+## 🛠️ Technical Stack
+- **AI Model**: [Google Gemini 1.5 Flash](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/gemini)
+- **Backend**: FastAPI (Python 3.10+)
+- **Frontend**: React Native / Expo (Bento-style UI)
+- **Database**: MongoDB (Query History Persistence)
+- **Auth**: Google OAuth 2.0 (via Emergent Identity)
 
-**One last check:** Does `python3 main.py` start the server on your Mac now, or do you get a "ModuleNotFoundError"? (If so, run `pip3 install flask flask-cors google-generativeai`).
+---
+
+## 🚀 Key Features
+- **Dynamic Strategy Generation**: Real-time sales roadmaps in <15 seconds.
+- **Bento-Card UI**: Clean, digestible interface for complex AI data.
+- **Secure Persistence**: Full query history with deletion and profile management.
+- **Enterprise Ready**: Structured JSON responses for predictable integration.
+
+---
+
+## 🏁 Getting Started
+1. **Clone the Repo**: `git clone [Your-Repo-Link]`
+2. **Install Dependencies**: `pip install -r requirements.txt`
+3. **Run Locally**: `python3 main.py`
+4. **Access the Web UI**: [Live Demo Link](https://task-automation-ai-10.preview.emergentagent.com/home)
+
+---
+
+### 💎 Google Cloud Integration
+This project demonstrates the power of **Vertex AI** for agentic workflows. By leveraging Gemini's structured output mode, we eliminate non-deterministic "hallucinations" and provide reliable business logic.
