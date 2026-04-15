@@ -1,5 +1,6 @@
-# 🚀 AI Sales Copilot: Multi-Agent Decision Engine  
-Production-ready AI system combining multi-agent orchestration with real-world sales execution intelligence.
+# 🚀 AI Sales Copilot: Multi-Agent Decision Engine  **
+**Production-ready AI system combining multi-agent orchestration with real-world sales execution intelligence.**
+
 ### Transforming Sales Intent into Execution-Ready Strategy  
 **Built for the Google Cloud Gen AI Academy 2026**
 
