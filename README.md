@@ -1,84 +1,104 @@
- ![Python](https://img.shields.io/badge/Python-3.10-blue)
-![FastAPI](https://img.shields.io/badge/FastAPI-API-green)
-![Status](https://img.shields.io/badge/Status-Live-brightgreen)
-![Deployment](https://img.shields.io/badge/Deployed-Replit-blue)
+# ⚡ AI Productivity Assistant: Multi-Agent Decision Engine
+### Replace Hours of Planning with Seconds of AI Execution
 
-# ⚡ AI Productivity Assistant  
-### Multi-Agent Decision Engine for Smarter Execution
-### Turn goals into execution in seconds using AI agents
-
-🌐 **Live Demo:** https://592fb534-088a-42ef-9ccd-465d1dd6b11b-00-3ka2nxvaf4wzn.sisko.replit.dev/  
-📄 **API Docs:** https://592fb534-088a-42ef-9ccd-465d1dd6b11b-00-3ka2nxvaf4wzn.sisko.replit.dev/docs   
-
-## 📸 Demo Preview
-
-![App Screenshot](multi_agent_assistant_output.png)
----
-
-## 🚀 Problem
-
-Sales and business professionals often struggle with:
-
-- Deciding the next best action  
-- Planning their workday effectively  
-- Prioritizing high-impact tasks  
-
-This leads to delays, missed opportunities, and decision fatigue.
+[![Python 3.10](https://img.shields.io/badge/Python-3.10-blue.svg)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-Framework-009688.svg)](https://fastapi.tiangolo.com/)
+[![Gemini 1.5](https://img.shields.io/badge/Google_Cloud-Gemini_1.5-4285F4.svg)](https://deepmind.google/technologies/gemini/)
+[![Deployment](https://img.shields.io/badge/Deployed-Emergent.sh-7B61FF.svg)](https://app.emergent.sh/home)
 
 ---
 
-## 💡 Solution
-
-AI Productivity Assistant is a **multi-agent decision system** that transforms input into structured execution:
-
-- 🧠 Insight (What’s happening?)  
-- 📋 Action (What to do next?)  
-- 📅 Execution (How to execute?)  
-
-👉 Not a chatbot — a system designed for real-world decision-making.
+## 🌐 Live System
+🚀 **Live Demo:** https://task-automation-ai-10.preview.emergentagent.com/home  
+📄 **API Docs (Swagger):** https://task-automation-ai-10.preview.emergentagent.com/docs  
 
 ---
 
-## 💼 Use Cases
+## 🚀 The Vision: Beyond Chatbots
 
-### 1. Sales Follow-up Strategy
-- Identify lead status (Hot/Warm/Cold)  
-- Suggest next steps  
-- Generate actionable follow-up approach  
+Most AI tools today are passive — they generate answers.
 
-### 2. Daily Work Planning
-- Structure the day intelligently  
-- Balance meetings, calls, and focused work  
+This system is built differently.
 
-### 3. Task Prioritization
-- Identify high-impact activities  
-- Focus on revenue-driving actions  
+Developed for the **Google Cloud Gen AI Academy (APAC Edition)**, this project introduces a **Multi-Agent Decision Engine** that converts business goals into structured, execution-ready workflows.
 
----
+Instead of just responding, the system:
+- Understands business context  
+- Prioritizes high-impact actions  
+- Generates clear execution plans  
 
-## 🎯 Key Features
-
-- 🧠 Multi-agent architecture  
-- 📊 Structured, business-ready outputs  
-- ⚡ FastAPI backend  
-- 🔌 AI-ready (Gemini / OpenAI integration)  
-- 🌐 Live deployed API  
+👉 It doesn’t just assist — it **thinks, decides, and executes**
 
 ---
 
-## 🧠 Architecture
+## ⚡ What Makes This Different?
+
+| Traditional AI | This System |
+|---------------|------------|
+| Gives answers | Drives execution |
+| Single response | Multi-agent reasoning |
+| Unstructured text | Structured outputs |
+| Passive assistance | Action-oriented intelligence |
+
+---
+
+## 🧠 The Multi-Agent Core
+
+The system uses **three specialized AI agents**, each solving a critical part of the decision process:
+
+### 🧠 Strategic Insight Agent — *The What*
+- Understands intent and context  
+- Detects urgency and opportunity  
+- Evaluates lead quality  
+
+---
+
+### 📋 Actionable Priority Agent — *The When*
+- Ranks tasks based on impact  
+- Identifies high-value actions  
+- Filters low-priority work  
+
+---
+
+### 📅 Workflow Execution Agent — *The How*
+- Creates execution-ready plans  
+- Generates communication templates  
+- Defines timelines and next steps  
+
+---
+
+👉 Final Output: **Structured, actionable, execution-ready plan**
+
+---
+
+## ⚡ Example Output
+
+**Input:**  
+"Follow up with a warm lead who hasn’t responded in 3 days"
+
+**AI Output:**
+
+| Insight | Action | Execution |
+|--------|--------|----------|
+| Lead is warm but cooling | Send personalized follow-up | Email + WhatsApp + Reminder |
+| Risk of drop-off | Re-engage with urgency | Schedule call within 24 hrs |
+
+👉 Not just insight — **clear execution guidance**
+
+---
+
+## 🛠️ Architecture
 
 ```mermaid
 flowchart TD
-    A[User Input] --> B[Orchestrator]
+    A[User Business Goal] --> B{Gemini 1.5 Orchestrator}
+    
+    subgraph Agentic_Layer [Multi-Agent Decision Engine]
+    B --> C[Strategic Insight Agent]
+    B --> D[Actionable Priority Agent]
+    B --> E[Workflow Execution Agent]
+    end
 
-    B --> C[Sales Agent]
-    B --> D[Task Agent]
-    B --> E[Planning Agent]
-
-    C --> F[Insight]
-    D --> F[Action]
-    E --> F[Execution]
-
-    F --> G[Structured Output]
-    G --> H[API Response]
+    C & D & E --> F[Structured Output Engine]
+    F --> G[FastAPI Backend]
+    G --> H[Execution-Ready Output]
