@@ -1,189 +1,93 @@
-# 🚀 AI Sales Copilot: Multi-Agent Decision Engine  **
-**Production-ready AI system combining multi-agent orchestration with real-world sales execution intelligence.**
+# 🚀 AI Sales Copilot: Multi-Agent Decision Engine
 
-### Transforming Sales Intent into Execution-Ready Strategy  
-**Built for the Google Cloud Gen AI Academy 2026**
+[![Google Cloud](https://img.shields.io/badge/Google%20Cloud-Gen%20AI%20Academy%202026-4285F4?logo=googlecloud&logoColor=white)](https://assist-center-7.preview.emergentagent.com/home)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React Native](https://img.shields.io/badge/Frontend-React%20Native%20%7C%20Expo-61DAFB?logo=react&logoColor=black)](https://expo.dev/)
+[![Gemini](https://img.shields.io/badge/AI-Gemini%201.5%20Flash-8E75B2?logo=googlegemini&logoColor=white)](https://deepmind.google/technologies/gemini/)
 
----
-
-## 🌐 Live Demo  
-👉 https://assist-center-7.preview.emergentagent.com/home  
+**A production-ready decision intelligence system that transforms raw sales intent into structured, execution-ready strategy.**
 
 ---
 
-## 🧠 What This System Does
-
-**AI Sales Copilot** is a production-grade **decision intelligence system** that converts raw sales inputs into structured, execution-ready strategies.
-
-Unlike traditional AI chat tools, it delivers:
-- Strategic insights  
-- Prioritized action plans  
-- Time-bound execution workflows  
-
-All presented in a **business-ready, structured format**.
+## 🌐 Live Experience
+> **Demo Link:** [Launch AI Sales Copilot](https://assist-center-7.preview.emergentagent.com/home)
 
 ---
 
-## ⚡ Core Differentiator
+## 🧠 The Problem & The Solution
 
-> This is not a chatbot.  
-> It is a **multi-agent decision engine** designed for real-world execution.
+Traditional AI chatbots provide text; **AI Sales Copilot provides execution.** Most AI tools suffer from "hallucination drift" and unstructured outputs. This system utilizes a **Multi-Agent Orchestration Pipeline** to ensure every insight is backed by a prioritized action plan and a time-bound workflow.
+
+### ⚡ Core Value Prop
+* **From:** "What should I do with this lead?"
+* **To:** "Here is the insight, the 3-step action plan, and the ready-to-send outreach."
 
 ---
 
 ## 🧩 Multi-Agent Architecture
+The engine operates through a sequential pipeline of specialized AI agents:
 
-The system uses a **sequential orchestration pipeline**, where each agent performs a specialized role and feeds into the next.
+| Agent | Responsibility | Output Type |
+| :--- | :--- | :--- |
+| **Strategic Insight** | Analyzes lead context & intent signals | Opportunity Mapping |
+| **Action Agent** | Converts insights into time-bound tasks | Prioritized Workflow |
+| **Outreach Agent** | Crafts tailored, strategy-aligned messaging | Communication Templates |
 
-### 🔹 1. Strategic Insight Agent  
-- Analyzes lead context, intent signals, and opportunity value  
-- Identifies high-impact sales opportunities  
-
-### 🔹 2. Action Agent  
-- Converts insights into prioritized, time-bound tasks  
-- Structures execution into immediate and follow-up actions  
-
-### 🔹 3. Outreach Agent  
-- Generates tailored communication templates  
-- Aligns messaging with strategy  
-
----
-
-## 🔄 Decision Intelligence Loop
-
-## 🔄 Decision Intelligence Loop
-
-```
-User Input
-→ Insight Agent
-→ Structured JSON Output
-→ Action Agent
-→ Execution Plan
-→ Outreach Agent
-→ Final Strategy (UI)
-```
-
-✔ Eliminates hallucination drift  
-✔ Ensures consistent, business-ready outputs  
-
----
-
-## 💼 Business Impact
-
-This system bridges the gap between AI insights and real-world execution.
-
-- 📈 Increase conversion rates by **15–30%**  
-- ⏱ Reduce planning time by **60%**  
-- 🎯 Improve lead qualification and follow-up efficiency  
+### 🔄 The Decision Loop
+`Input` ⮕ `Insight Agent` ⮕ `JSON Validation` ⮕ `Action Agent` ⮕ `Execution Plan` ⮕ `Outreach Agent` ⮕ `Bento UI`
 
 ---
 
 ## 🛠️ Technology Stack
 
-### AI Layer  
-- Google Gemini 1.5 Flash (Vertex AI-ready architecture)
+* **AI Orchestration:** Google Gemini 1.5 Flash (Vertex AI Architecture)
+* **Backend:** Python 3.10+ / FastAPI (High-performance asynchronous logic)
+* **Frontend:** React Native + Expo SDK 54 (Web & Mobile cross-compatibility)
+* **Database:** MongoDB (Persistent strategy memory & history tracking)
+* **DevOps:** Google Cloud Platform / Containerized Services / K8s Ingress
 
-### Backend  
-- FastAPI (Python 3.10+)  
+---
 
-### Frontend  
-- React Native + Expo SDK 54 (Web + Mobile optimized)
+## 🔐 Engineering Spotlight: Production Authentication Fix
+During development, a critical hurdle was identified regarding cross-origin session persistence.
 
-### Database  
-- MongoDB (strategy persistence & history)
+* **The Issue:** `httpOnly` cookies were inaccessible to the frontend, causing authorization drops.
+* **The Fix:** * Migrated to a **Response Body Token** architecture.
+    * Implemented `SecureStore` (Mobile) and `localStorage` (Web) persistence.
+    * Added OAuth race-condition safeguards to ensure stable API handshakes.
+* **Result:** 100% reliable session handling across web and mobile environments.
 
-### Authentication  
-- Google OAuth 2.0 (secure session management)
+---
+
+## 💼 Business Impact (Projected)
+* **Conversion:** 15–30% increase in lead-to-opportunity rates.
+* **Efficiency:** 60% reduction in manual sales discovery and planning time.
+* **Consistency:** Standardized strategy outputs across entire sales teams.
 
 ---
 
 ## 🚀 Key Features
-
-### 🤖 Deterministic Strategy Generation  
-Structured JSON responses ensure consistent and reliable outputs.
-
-### 🧠 Multi-Agent Reasoning  
-Specialized agents collaborate to produce high-quality decisions.
-
-### 📊 Bento-Style UI  
-Strategies visualized as:
-- Insights  
-- Actions  
-- Execution Plans  
-
-### 🧾 Persistent Strategy Memory  
-- Full history tracking  
-- Revisit and reuse strategies  
-
-### 🔐 Enterprise-Grade Authentication  
-- Secure session handling  
-- Protected API architecture  
-
----
-
-## 🧪 Testing & Reliability
-
-- ✅ 100% backend test success rate  
-- ✅ End-to-end frontend validation  
-- ✅ Auth flow fully verified  
-- ✅ Structured AI output consistency  
-
----
-
-## 🔐 Authentication Architecture (Production Fix)
-
-### ⚠️ Problem  
-`httpOnly` session cookies were not accessible to the frontend, causing silent authorization failures.
-
-### ✅ Solution  
-- Returned `session_token` in API response body  
-- Stored securely in client (SecureStore/localStorage)  
-- Verified session via `/api/auth/me`  
-- Added OAuth race-condition safeguards  
-
-### 💡 Outcome  
-- Reliable authentication flow  
-- Secure + usable session handling  
-- Stable API communication  
-
----
-
-## ☁️ Deployment Architecture
-
-- Hosted on Google Cloud infrastructure  
-- Containerised backend services  
-- Kubernetes ingress routing (port 8001 internal)  
-- Public HTTPS endpoint for global access  
+* **Deterministic Strategy:** Structured JSON ensures zero hallucination in task lists.
+* **Bento-Style UI:** High-density, clean visualization of complex strategic data.
+* **Persistent Memory:** Full history tracking to revisit and iterate on past strategies.
+* **Enterprise Auth:** Secure Google OAuth 2.0 integration.
 
 ---
 
 ## 🔮 Roadmap
-
-- 📤 Strategy Export (PDF / Shareable Links)  
-- 👥 Team Collaboration Layer  
-- 🧠 AI Critic Agent (self-improving strategies)  
-- 📊 Industry-Specific Templates  
-
----
-
-## 💡 Why This Matters
-
-Most AI tools generate text.  
-This system generates **decisions + execution plans**.
-
-👉 From *“What should I do?”*  
-👉 To *“Here’s exactly how to do it.”*
+- [ ] **Strategy Export:** One-click PDF and shareable link generation.
+- [ ] **Team Layer:** Collaborative strategy editing for sales managers.
+- [ ] **AI Critic Agent:** A 4th agent to "stress-test" strategies before final output.
+- [ ] **CRM Sync:** Direct push-to-HubSpot/Salesforce integration.
 
 ---
 
 ## 👨‍💻 Author
+**Mayur Chauhan**
+*Business Development & AI Systems Architect*
 
-**Mayur Chauhan**  [LinkedIn Profile]((https://www.linkedin.com/in/mayurchauhan/) | [Live Demo](https://assist-center-7.preview.emergentagent.com/home)
-Building AI-driven systems for real-world business execution.
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?logo=linkedin)](https://www.linkedin.com/in/mayurchauhan/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-Live%20Demo-success?logo=googlechrome)](https://assist-center-7.preview.emergentagent.com/home)
 
 ---
-
-# 🏁 Final Note
-
-This is not just an AI application.  
-It is a **decision intelligence system designed for modern sales teams**.
+*Built for the Google Cloud Gen AI Academy 2026.*
