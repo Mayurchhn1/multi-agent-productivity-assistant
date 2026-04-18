@@ -43,10 +43,10 @@ The engine operates through a sequential pipeline of specialized AI agents:
 ---
 
 ## 🔐 Compliance & Usage
-- [ ]	All outputs are user-initiated
-- [ ]	No automated or unsolicited messaging is performed
-- [ ]	The system does not send messages on behalf of users
-- [ ]	Designed as a decision-support system, not an automation engine
+- All outputs are user-initiated
+- No automated or unsolicited messaging is performed
+- The system does not send messages on behalf of users
+- Designed as a decision-support system, not an automation engine
 
 ---
 
