@@ -1,40 +1,87 @@
+import os
 import json
 import re
-import os
 import traceback
+import requests
 from openai import OpenAI
+from app.db.database import save_plan
 
 # -----------------------------
-# 🔐 Secure API Key Handling
+# ⚙️ Provider Switch
 # -----------------------------
-api_key = os.getenv("OPENAI_API_KEY")
-
-if not api_key:
-    raise ValueError("OPENAI_API_KEY is not set")
-
-client = OpenAI(api_key=api_key)
+USE_PROVIDER = os.getenv("LLM_PROVIDER", "ollama")
 
 
 # -----------------------------
-# 🔍 Safe JSON Extraction
+# 🌐 OpenRouter (Cloud)
+# -----------------------------
+def call_openrouter(prompt: str):
+    try:
+        client = OpenAI(
+            api_key=os.getenv("OPENROUTER_API_KEY"),
+            base_url="https://openrouter.ai/api/v1"
+        )
+
+        response = client.chat.completions.create(
+            model="openai/gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "Return ONLY valid JSON."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.5,
+        )
+
+        return response.choices[0].message.content.strip()
+
+    except Exception as e:
+        print("OpenRouter Error:", str(e))
+        return ""
+
+
+# -----------------------------
+# 🖥️ Ollama (Local)
+# -----------------------------
+def call_ollama(prompt: str):
+    try:
+        res = requests.post(
+            "http://127.0.0.1:11434/api/generate",
+            json={
+                "model": "phi3",
+                "prompt": prompt,
+                "stream": False
+            },
+            timeout=60
+        )
+
+        data = res.json()
+        return data.get("response", "")
+
+    except Exception as e:
+        print("Ollama Error:", str(e))
+        return ""
+
+
+# -----------------------------
+# 🔍 JSON Extraction
 # -----------------------------
 def extract_json(text: str):
     try:
-        # Remove markdown blocks (```json ... ```)
-        text = re.sub(r"```json|```", "", text).strip()
+        text = re.sub(r"```.*?```", "", text, flags=re.DOTALL).strip()
 
-        # Try direct parsing first
+        # direct parse
         try:
             return json.loads(text)
         except:
             pass
 
-        # Extract full JSON block
-        start = text.find("{")
-        end = text.rfind("}")
+        # fallback extraction
+        matches = re.findall(r"\{[\s\S]*\}", text)
 
-        if start != -1 and end != -1:
-            return json.loads(text[start:end + 1])
+        for m in matches:
+            try:
+                return json.loads(m)
+            except:
+                continue
 
         return None
 
@@ -43,96 +90,154 @@ def extract_json(text: str):
 
 
 # -----------------------------
-# 🧠 Main AI Execution Engine
+# 🧠 MAIN AGENT
 # -----------------------------
 def run_agent(user_input: str):
     try:
+        # -----------------------------
+        # 💼 CONSULTANT PROMPT
+        # -----------------------------
         prompt = f"""
-You are an elite execution strategist.
+You are a high-performance sales execution consultant.
 
-Convert user intent into a HIGH-QUALITY execution plan.
-
-User Input:
-{user_input}
-
-Return STRICT JSON ONLY:
+Return ONLY valid JSON.
 
 {{
   "mode": "sales | work | learning | general",
-  "summary": "1–2 line sharp summary",
+  "summary": "Outcome-focused insight",
+  "reasoning": "Why this plan works",
+  "confidence": 0.85,
   "plan": [
     {{
-      "task": "Specific action (clear + executable)",
-      "time": "realistic time (e.g. 9:00 AM)",
-      "type": "Deep Work | Execution | Follow-up | Review",
+      "task": "Specific action",
+      "time": "Exact time",
+      "type": "Execution | Follow-up | Deep Work | Review",
+      "priority": 1
+    }},
+    {{
+      "task": "Next step",
+      "time": "Time",
+      "type": "Execution",
+      "priority": 2
+    }}
+  ]
+}}
+
+Rules:
+- Max 5 tasks
+- No generic advice
+- Focus on real execution
+
+User:
+{user_input}
+"""
+
+        # -----------------------------
+        # 🔁 CALL PRIMARY PROVIDER
+        # -----------------------------
+        if USE_PROVIDER == "ollama":
+            raw_content = call_ollama(prompt)
+
+            # fallback if weak response
+            if not raw_content or len(raw_content) < 50:
+                print("⚡ Switching to OpenRouter fallback...")
+                raw_content = call_openrouter(prompt)
+        else:
+            raw_content = call_openrouter(prompt)
+
+        print("\n--- RAW AI RESPONSE ---\n", raw_content, "\n----------------------\n")
+
+        # -----------------------------
+        # 🔍 PARSE
+        # -----------------------------
+        parsed = extract_json(raw_content)
+
+        # -----------------------------
+        # 🔄 RETRY (STRICT)
+        # -----------------------------
+        if not parsed:
+            retry_prompt = f"""
+ONLY JSON.
+
+{{
+  "mode": "sales",
+  "summary": "short summary",
+  "reasoning": "why it works",
+  "confidence": 0.8,
+  "plan": [
+    {{
+      "task": "action",
+      "time": "now",
+      "type": "Execution",
       "priority": 1
     }}
   ]
 }}
 
-RULES:
-- Max 5 tasks
-- First task = highest impact
-- Tasks must follow logical sequence
-- No generic advice (avoid: research, analyze, plan)
-- Each task must be immediately actionable
-- Output MUST be valid JSON only
+User: {user_input}
 """
-
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",   # stable + widely supported
-            messages=[
-                {"role": "system", "content": "You output ONLY valid JSON."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=0.6,
-        )
-
-        raw_content = response.choices[0].message.content.strip()
-
-        # 🔍 Debug log (visible in Render logs)
-        print("\n--- RAW AI RESPONSE ---\n", raw_content, "\n----------------------\n")
-
-        parsed = extract_json(raw_content)
+            raw_content = call_openrouter(retry_prompt)
+            parsed = extract_json(raw_content)
 
         # -----------------------------
-        # 🔒 HARD FALLBACK (CRITICAL)
+        # 🔒 FINAL FALLBACK
         # -----------------------------
         if not parsed or "plan" not in parsed:
-            return {
-                "mode": "general",
-                "summary": "Starting with a simple execution plan to build momentum.",
+            fallback = {
+                "mode": "sales",
+                "summary": "Start execution immediately to build momentum.",
+                "reasoning": "Action reduces uncertainty and builds clarity.",
+                "confidence": 0.5,
                 "plan": [
                     {
                         "task": f"Start working on: {user_input}",
                         "time": "Now",
                         "type": "Execution",
-                        "priority": 3
+                        "priority": 1
                     }
                 ]
             }
 
+            save_plan(user_input, fallback)
+            return fallback
+
         # -----------------------------
-        # 🛡️ STRUCTURE SAFETY
+        # 🛡️ CLEAN STRUCTURE
         # -----------------------------
         parsed["mode"] = parsed.get("mode", "general")
         parsed["summary"] = parsed.get("summary", "")
+        parsed["reasoning"] = parsed.get("reasoning", "")
+        parsed["confidence"] = parsed.get("confidence", 0.75)
 
-        plan = parsed.get("plan", [])
-        if not isinstance(plan, list):
-            plan = []
+        clean_plan = []
+        for i, item in enumerate(parsed.get("plan", [])[:5]):
+            clean_plan.append({
+                "task": item.get("task", f"Task {i+1}"),
+                "time": item.get("time", "TBD"),
+                "type": item.get("type", "Execution"),
+                "priority": item.get("priority", i + 1)
+            })
 
-        # Limit to 5 tasks
-        parsed["plan"] = plan[:5]
+        parsed["plan"] = clean_plan
+
+        # -----------------------------
+        # 💾 SAVE TO DATABASE (CRITICAL)
+        # -----------------------------
+        save_plan(user_input, parsed)
 
         return parsed
 
-    except Exception as e:
+    except Exception:
         print("\n!!! RUN_AGENT ERROR !!!\n")
         traceback.print_exc()
 
-        return {
+        error_response = {
             "mode": "error",
-            "summary": "AI failed to generate a valid execution plan. Try again.",
+            "summary": "AI failed to generate a valid execution plan.",
+            "reasoning": "",
+            "confidence": 0,
             "plan": []
         }
+
+        save_plan(user_input, error_response)
+        return error_response

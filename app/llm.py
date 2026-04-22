@@ -1,9 +1,10 @@
 import os
 import requests
+import traceback
 
-def generate_ai_response(prompt):
+def generate_ai_response(prompt: str):
     try:
-        response = requests.post(
+        res = requests.post(
             "https://api.emergent.sh/v1/chat/completions",
             headers={
                 "Authorization": f"Bearer {os.getenv('EMERGENT_LLM_KEY')}",
@@ -12,19 +13,39 @@ def generate_ai_response(prompt):
             json={
                 "model": "gpt-4o-mini",
                 "messages": [
-                    {"role": "system", "content": "You are a helpful AI sales assistant."},
+                    {"role": "system", "content": "You output ONLY valid JSON."},
                     {"role": "user", "content": prompt}
                 ]
             },
-            timeout=30  # ✅ IMPORTANT
+            timeout=30
         )
 
-        data = response.json()
+        # ✅ Check HTTP status
+        if res.status_code != 200:
+            return {
+                "error": True,
+                "message": f"HTTP {res.status_code}: {res.text}"
+            }
 
+        data = res.json()
+
+        # ✅ Validate structure
         if "choices" not in data:
-            return f"Error: {data}"
+            return {
+                "error": True,
+                "message": f"Invalid response: {data}"
+            }
 
-        return data["choices"][0]["message"]["content"]
+        content = data["choices"][0]["message"]["content"].strip()
+
+        return {
+            "error": False,
+            "content": content
+        }
 
     except Exception as e:
-        return f"Server error: {str(e)}"
+        traceback.print_exc()
+        return {
+            "error": True,
+            "message": f"Server error: {str(e)}"
+        }
