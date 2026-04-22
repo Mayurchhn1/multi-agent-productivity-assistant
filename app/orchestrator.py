@@ -2,6 +2,7 @@ import json
 import re
 import os
 from openai import OpenAI
+import traceback
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -119,10 +120,11 @@ RULES:
         return parsed
 
     except Exception as e:
-        print("\n!!! RUN_AGENT ERROR !!!\n", str(e), "\n")
+    print("\n!!! RUN_AGENT ERROR !!!\n")
+    traceback.print_exc()
 
-        return {
-            "mode": "error",
-            "summary": "AI failed to generate a valid execution plan. Try again.",
-            "plan": []
-        }
+    return {
+        "mode": "error",
+        "summary": "AI failed to generate a valid execution plan. Try again.",
+        "plan": []
+    }
