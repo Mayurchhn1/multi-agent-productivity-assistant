@@ -1,10 +1,18 @@
 import json
 import re
 import os
-from openai import OpenAI
 import traceback
+from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# -----------------------------
+# 🔐 Secure API Key Handling
+# -----------------------------
+api_key = os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    raise ValueError("OPENAI_API_KEY is not set")
+
+client = OpenAI(api_key=api_key)
 
 
 # -----------------------------
@@ -15,13 +23,13 @@ def extract_json(text: str):
         # Remove markdown blocks (```json ... ```)
         text = re.sub(r"```json|```", "", text).strip()
 
-        # 1️⃣ Try direct parsing
+        # Try direct parsing first
         try:
             return json.loads(text)
         except:
             pass
 
-        # 2️⃣ Extract full JSON block
+        # Extract full JSON block
         start = text.find("{")
         end = text.rfind("}")
 
@@ -72,7 +80,7 @@ RULES:
 """
 
         response = client.chat.completions.create(
-            model="gpt-4.1-mini",
+            model="gpt-4o-mini",   # stable + widely supported
             messages=[
                 {"role": "system", "content": "You output ONLY valid JSON."},
                 {"role": "user", "content": prompt}
@@ -120,11 +128,11 @@ RULES:
         return parsed
 
     except Exception as e:
-    print("\n!!! RUN_AGENT ERROR !!!\n")
-    traceback.print_exc()
+        print("\n!!! RUN_AGENT ERROR !!!\n")
+        traceback.print_exc()
 
-    return {
-        "mode": "error",
-        "summary": "AI failed to generate a valid execution plan. Try again.",
-        "plan": []
-    }
+        return {
+            "mode": "error",
+            "summary": "AI failed to generate a valid execution plan. Try again.",
+            "plan": []
+        }
