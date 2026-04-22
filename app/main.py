@@ -1,9 +1,10 @@
+import json
+import os
+import logging
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-import os
-import logging
 
 from app.orchestrator import run_agent
 
@@ -19,7 +20,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="FlowPlan AI",
     description="Turn intent into execution plans using AI",
-    version="3.0.0",
+    version="3.1.0",
     docs_url="/docs",
     redoc_url="/redoc"
 )
@@ -36,10 +37,36 @@ app.add_middleware(
 )
 
 # -----------------------------
-# 📦 Request Model
+# 📁 Storage Setup
+# -----------------------------
+DATA_FILE = "plans.json"
+
+def read_data():
+    try:
+        if not os.path.exists(DATA_FILE):
+            return []
+        with open(DATA_FILE, "r") as f:
+            return json.load(f)
+    except Exception as e:
+        logger.error(f"Read error: {str(e)}")
+        return []
+
+def write_data(data):
+    try:
+        with open(DATA_FILE, "w") as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        logger.error(f"Write error: {str(e)}")
+
+
+# -----------------------------
+# 📦 Request Models
 # -----------------------------
 class QueryRequest(BaseModel):
     query: str
+
+class SaveRequest(BaseModel):
+    plan: dict
 
 
 # -----------------------------
@@ -50,7 +77,6 @@ class TaskItem(BaseModel):
     time: str
     type: str
     priority: int
-
 
 class QueryResponse(BaseModel):
     input: str
@@ -73,7 +99,7 @@ def serve_ui():
         return FileResponse(file_path)
 
     except Exception as e:
-        logger.error(str(e))
+        logger.error(f"UI load error: {str(e)}")
         return {"status": "error"}
 
 
@@ -85,7 +111,7 @@ def health():
     return {
         "status": "ok",
         "service": "FlowPlan AI",
-        "version": "3.0.0"
+        "version": "3.1.0"
     }
 
 
@@ -97,6 +123,9 @@ def run(req: QueryRequest):
     try:
         result = run_agent(req.query)
 
+        if not result or "plan" not in result:
+            raise ValueError("Invalid AI response")
+
         return {
             "input": req.query,
             "mode": result.get("mode", "general"),
@@ -105,10 +134,45 @@ def run(req: QueryRequest):
         }
 
     except Exception as e:
-        logger.error(str(e))
+        logger.error(f"/run error: {str(e)}")
         return {
             "input": req.query,
             "mode": "error",
             "summary": "Something went wrong",
             "plan": []
         }
+
+
+# -----------------------------
+# 💾 Save Plan
+# -----------------------------
+@app.post("/save")
+def save(req: SaveRequest):
+    try:
+        data = read_data()
+
+        # Add timestamp
+        req.plan["saved_at"] = str(os.times())
+
+        data.insert(0, req.plan)
+        write_data(data)
+
+        return {"status": "saved"}
+
+    except Exception as e:
+        logger.error(f"/save error: {str(e)}")
+        return {"status": "error"}
+
+
+# -----------------------------
+# 📜 Get History
+# -----------------------------
+@app.get("/history")
+def history():
+    try:
+        data = read_data()
+        return data[:5]  # last 5 plans
+
+    except Exception as e:
+        logger.error(f"/history error: {str(e)}")
+        return []
