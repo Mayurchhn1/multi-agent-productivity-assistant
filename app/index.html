@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>AI Productivity Assistant</title>
+    <title>FlowPlan AI</title>
 
     <style>
         body {
@@ -11,19 +11,25 @@
         }
 
         .container {
-            max-width: 950px;
+            max-width: 900px;
             margin: auto;
             text-align: center;
         }
 
         h1 {
-            font-size: 32px;
-            margin-bottom: 5px;
+            font-size: 36px;
+            margin-bottom: 8px;
         }
 
         .subtitle {
-            color: #666;
-            margin-bottom: 30px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .subtext {
+            opacity: 0.6;
+            font-size: 14px;
+            margin-bottom: 25px;
         }
 
         .input-box {
@@ -54,30 +60,57 @@
             background: #4f46e5;
         }
 
+        .quick-buttons {
+            margin-top: 15px;
+        }
+
+        .quick-buttons button {
+            background: #e5e7eb;
+            color: #111;
+            margin: 5px;
+        }
+
+        .quick-buttons button:hover {
+            background: #d1d5db;
+        }
+
+        .summary {
+            margin-top: 25px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+            text-align: left;
+        }
+
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin-top: 30px;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
         }
 
         .card {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+            padding: 16px;
+            border-radius: 10px;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.08);
             text-align: left;
         }
 
-        .title {
-            font-weight: bold;
-            margin-bottom: 10px;
+        .meta {
+            opacity: 0.6;
+            font-size: 13px;
+        }
+
+        .priority {
+            margin-top: 6px;
+            font-weight: 600;
         }
 
         #loading {
             margin-top: 20px;
             color: #555;
-            white-space: pre-line;
         }
     </style>
 </head>
@@ -86,89 +119,114 @@
 
 <div class="container">
 
-    <h1>⚡ AI Productivity Assistant</h1>
+    <h1>From idea → execution plan in seconds</h1>
+
     <div class="subtitle">
-        Multi-Agent Decision Engine for Smarter Execution
+        Tell me your goal. I’ll break it into actionable steps you can execute today.
+    </div>
+
+    <div class="subtext">
+        No fluff. Just a plan you can act on immediately.
     </div>
 
     <div class="input-box">
-        <input type="text" id="query" placeholder="Try: Client not responding after proposal" />
-        <button onclick="runAI()">Generate Strategy</button>
+        <input type="text" id="query" placeholder="What do you want to achieve today?" />
+        <button onclick="runAI()">Create Plan</button>
+
+        <div class="quick-buttons">
+            <button onclick="quickFill('Plan my day for sales')">Sales</button>
+            <button onclick="quickFill('Organize my work tasks')">Work</button>
+            <button onclick="quickFill('Build a learning routine')">Learning</button>
+        </div>
     </div>
 
     <div id="loading"></div>
 
-    <div class="grid" id="output" style="display:none;">
-
-        <!-- 🧠 Sales -->
-        <div class="card">
-            <div class="title">🧠 Sales Insight</div>
-            <div id="sales"></div>
-            <button onclick="copyText('sales')" style="margin-top:10px;">Copy</button>
-        </div>
-
-        <!-- 📋 Tasks -->
-        <div class="card">
-            <div class="title">📋 Action Tasks</div>
-            <div id="tasks"></div>
-            <button onclick="copyText('tasks')" style="margin-top:10px;">Copy</button>
-        </div>
-
-        <!-- 📅 Planning -->
-        <div class="card">
-            <div class="title">📅 Execution Plan</div>
-            <div id="planning"></div>
-            <button onclick="copyText('planning')" style="margin-top:10px;">Copy</button>
-        </div>
-
-    </div>
+    <div id="summary"></div>
+    <div class="grid" id="output"></div>
 
 </div>
 
 <script>
+function quickFill(text) {
+    document.getElementById("query").value = text;
+    runAI();
+}
+
 async function runAI() {
-    const query = document.getElementById("query").value;
+    const query = document.getElementById("query").value.trim();
 
-    document.getElementById("loading").innerText =
-        "🧠 Sales Agent analyzing...\n📋 Task Agent planning...\n📅 Strategy Agent structuring...";
-    document.getElementById("output").style.display = "none";
+    if (!query) {
+        alert("Enter something to generate a plan");
+        return;
+    }
 
-    fetch("https://task-automation-ai-10.emergent.host/api/run-agent", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ query })
-    });
+    const loading = document.getElementById("loading");
+    const output = document.getElementById("output");
+    const summaryDiv = document.getElementById("summary");
 
-    const data = await response.json();
+    loading.innerText = "⚡ Building your execution plan...";
+    output.innerHTML = "";
+    summaryDiv.innerHTML = "";
 
-    document.getElementById("loading").innerText = "";
-    document.getElementById("output").style.display = "grid";
+    try {
+        const res = await fetch("/run", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ query })
+        });
 
-    document.getElementById("sales").innerHTML =
-        (data.sales || "No sales insight")
-            .replace(/•/g, "🔹")
-            .replace(/\n/g, "<br>");
+        if (!res.ok) {
+            throw new Error("API error");
+        }
 
-    document.getElementById("tasks").innerHTML =
-        (data.tasks || "No tasks")
-            .replace(/•/g, "🔹")
-            .replace(/\n/g, "<br>");
+        const data = await res.json();
 
-    document.getElementById("planning").innerHTML =
-        (data.planning || "No plan")
-            .replace(/Morning:/g, "🔹 Morning:")
-            .replace(/Afternoon:/g, "<br>🔹 Afternoon:")
-            .replace(/Evening:/g, "<br>🔹 Evening:")
-            .replace(/\n/g, "<br>");
+        loading.innerText = "";
+
+        if (data.mode === "error") {
+            summaryDiv.innerHTML = `<div class="summary">⚠️ ${data.summary}</div>`;
+            return;
+        }
+
+        // Summary
+        summaryDiv.innerHTML = `
+            <div class="summary">
+                <b>${data.mode.toUpperCase()} MODE</b><br><br>
+                ${data.summary}
+                <div style="margin-top:10px;font-size:13px;opacity:0.6;">
+                    Start with: <b>${data.plan[0]?.task || ''}</b>
+                </div>
+            </div>
+        `;
+
+        // Tasks
+        data.plan.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "card";
+
+            div.innerHTML = `
+                <b>${item.task}</b>
+                <div class="meta">${item.time} • ${item.type}</div>
+                <div class="priority">Priority: ${item.priority}</div>
+            `;
+
+            output.appendChild(div);
+        });
+
+    } catch (err) {
+        loading.innerText = "⚠️ Error connecting to server";
+    }
 }
 
-function copyText(id) {
-    const text = document.getElementById(id).innerText;
-    navigator.clipboard.writeText(text);
-    alert("✅ Copied to clipboard!");
-}
+// Enter key support
+document.getElementById("query").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        runAI();
+    }
+});
 </script>
 
 </body>
