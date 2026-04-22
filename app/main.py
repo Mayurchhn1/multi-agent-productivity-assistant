@@ -1,5 +1,3 @@
-from fastapi.responses import FileResponse
-import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -7,11 +5,9 @@ from app.orchestrator import run_agent
 
 app = FastAPI(
     title="Multi-Agent Productivity API",
-    description="AI system to manage tasks, schedules, and workflows using multiple agents",
     version="1.0.0"
 )
 
-# ✅ FIX: CORS (VERY IMPORTANT)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -25,9 +21,8 @@ class QueryRequest(BaseModel):
 
 @app.get("/")
 def home():
-    return {"status": "ok", "version": "FINAL-CHECK-123"}
+    return {"status": "ok", "version": "FINAL-CLEAN"}
 
-# ✅ FIX: use orchestrator (multi-agent)
 @app.post("/run")
 def run(req: QueryRequest):
     return run_agent(req.query)
