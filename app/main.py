@@ -24,8 +24,8 @@ class QueryRequest(BaseModel):
     query: str
 
 @app.get("/")
-def serve_home():
-    return FileResponse(os.path.join(os.getcwd(), "..", "index.html"))
+def home():
+    return {"status": "ok", "version": "FINAL-CHECK-123"}
 
 # ✅ FIX: use orchestrator (multi-agent)
 @app.post("/run")
