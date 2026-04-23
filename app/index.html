@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>FlowPlan AI</title>
+    <title>FlowPlan AI</title>
 
 <style>
 :root {
-  --bg-main: #020617;
-  --bg-soft: #0f172a;
+  --bg: #020617;
   --glass: rgba(255,255,255,0.05);
   --border: rgba(255,255,255,0.08);
   --text: #e2e8f0;
   --muted: #94a3b8;
-  --accent: #6366f1;
-  --accent-2: #8b5cf6;
 }
 
-/* ===== BODY ===== */
 body {
   font-family: 'Segoe UI', sans-serif;
   background: radial-gradient(circle at top, #0f172a, #020617);
@@ -24,18 +20,15 @@ body {
   margin: 0;
 }
 
-/* ===== CONTAINER ===== */
 .container {
   max-width: 900px;
   margin: auto;
   text-align: center;
 }
 
-/* ===== HEADLINE ===== */
 h1 {
-  font-size: 42px;
+  font-size: 40px;
   font-weight: 700;
-  margin-bottom: 10px;
   background: linear-gradient(to right, #fff, #a5b4fc);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -43,7 +36,7 @@ h1 {
 
 .subtitle {
   color: var(--muted);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .subtext {
@@ -52,146 +45,82 @@ h1 {
   margin-bottom: 30px;
 }
 
-/* ===== GLASS CARD ===== */
 .input-box {
   background: var(--glass);
   backdrop-filter: blur(16px);
-  padding: 28px;
-  border-radius: 18px;
+  padding: 24px;
+  border-radius: 16px;
   border: 1px solid var(--border);
-  box-shadow:
-    0 25px 70px rgba(0,0,0,0.7),
-    0 0 40px rgba(99,102,241,0.15);
-  transition: 0.25s ease;
 }
 
-.input-box:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255,255,255,0.15);
-}
-
-/* ===== INPUT ===== */
 input {
   width: 60%;
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.1);
-  background: rgba(255,255,255,0.06);
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255,255,255,0.08);
   color: white;
-  outline: none;
-  transition: 0.2s;
 }
 
-input::placeholder {
-  color: #64748b;
-}
-
-input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(99,102,241,0.3);
-}
-
-/* ===== BUTTON ===== */
 button {
-  padding: 16px 26px;
+  padding: 14px 22px;
   margin-left: 10px;
   border: none;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
-  border-radius: 12px;
-  font-weight: 600;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.25s ease;
 }
 
 button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 30px rgba(99,102,241,0.5);
 }
 
-/* ===== QUICK BUTTONS ===== */
 .quick-buttons {
-  margin-top: 18px;
+  margin-top: 15px;
 }
 
 .quick-buttons button {
   background: rgba(255,255,255,0.06);
-  color: #cbd5f5;
-  margin: 6px;
-  padding: 10px 16px;
-  border-radius: 20px;
-  font-size: 13px;
+  margin: 5px;
 }
 
-.quick-buttons button:hover {
-  background: rgba(255,255,255,0.12);
-}
-
-/* ===== SUMMARY ===== */
 .summary {
-  margin-top: 28px;
-  padding: 20px;
+  margin-top: 25px;
+  padding: 18px;
   background: var(--glass);
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid var(--border);
   text-align: left;
-  backdrop-filter: blur(10px);
-  animation: fadeIn 0.3s ease;
 }
 
-/* ===== GRID ===== */
 .grid {
   display: grid;
   gap: 16px;
   margin-top: 20px;
 }
 
-/* ===== CARD ===== */
 .card {
   background: var(--glass);
-  backdrop-filter: blur(12px);
-  padding: 20px;
-  border-radius: 14px;
+  padding: 18px;
+  border-radius: 12px;
   border: 1px solid var(--border);
-  transition: 0.25s ease;
-  animation: fadeIn 0.3s ease;
+  text-align: left;
 }
 
-.card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255,255,255,0.15);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-/* ===== TEXT ===== */
 .meta {
   opacity: 0.6;
   font-size: 13px;
-  margin-top: 4px;
 }
 
 .priority {
-  margin-top: 8px;
-  font-weight: 600;
+  margin-top: 6px;
   color: #a5b4fc;
 }
 
-/* ===== LOADING ===== */
 #loading {
   margin-top: 20px;
-  color: var(--muted);
-}
-
-/* ===== ANIMATION ===== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  opacity: 0.7;
 }
 </style>
 </head>
@@ -229,52 +158,52 @@ button:hover {
 
 <script>
 function quickFill(text){
-  document.getElementById("query").value=text;
+  document.getElementById("query").value = text;
   runAI();
 }
 
 async function runAI(){
-  const query=document.getElementById("query").value.trim();
+  const query = document.getElementById("query").value.trim();
   if(!query) return alert("Enter something");
 
-  const loading=document.getElementById("loading");
-  const output=document.getElementById("output");
-  const summary=document.getElementById("summary");
+  const loading = document.getElementById("loading");
+  const output = document.getElementById("output");
+  const summary = document.getElementById("summary");
 
-  loading.innerHTML="⚡ Thinking like an operator...";
-  output.innerHTML="";
-  summary.innerHTML="";
+  loading.innerHTML = "⚡ Thinking like an operator...";
+  output.innerHTML = "";
+  summary.innerHTML = "";
 
   try{
-    const res=await fetch("/run",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({query})
+    const res = await fetch("/run", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify({query})
     });
 
-    const data=await res.json();
-    loading.innerHTML="";
+    const data = await res.json();
+    loading.innerHTML = "";
 
-    if(data.mode==="error"){
-      summary.innerHTML=`<div class="summary">⚠️ ${data.summary}</div>`;
+    if(data.mode === "error"){
+      summary.innerHTML = `<div class="summary">⚠️ ${data.summary}</div>`;
       return;
     }
 
-    summary.innerHTML=`
+    summary.innerHTML = `
       <div class="summary">
-        <div style="font-size:12px;opacity:0.5">${data.mode.toUpperCase()} MODE</div>
-        ${data.summary}
+        <div style="font-size:12px;opacity:0.5">${(data.mode || "general").toUpperCase()} MODE</div>
+        ${data.summary || ""}
         <div style="margin-top:10px;font-size:13px;opacity:0.6;">
-          Start with: <b>${data.plan[0]?.task||''}</b>
+          Start with: <b>${data.plan?.[0]?.task || ""}</b>
         </div>
       </div>
     `;
 
-    data.plan.forEach(item=>{
-      const div=document.createElement("div");
-      div.className="card";
+    (data.plan || []).forEach(item => {
+      const div = document.createElement("div");
+      div.className = "card";
 
-      div.innerHTML=`
+      div.innerHTML = `
         <b>${item.task}</b>
         <div class="meta">${item.time} • ${item.type}</div>
         <div class="priority">Priority: ${item.priority}</div>
@@ -283,13 +212,14 @@ async function runAI(){
       output.appendChild(div);
     });
 
-  }catch{
-    loading.innerHTML="⚠️ Error connecting";
+  } catch (e){
+    loading.innerHTML = "⚠️ Error connecting to server";
+    console.error(e);
   }
 }
 
-document.getElementById("query").addEventListener("keypress",e=>{
-  if(e.key==="Enter") runAI();
+document.getElementById("query").addEventListener("keypress", function(e){
+  if(e.key === "Enter") runAI();
 });
 </script>
 
