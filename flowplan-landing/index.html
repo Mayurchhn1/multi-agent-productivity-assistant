@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FlowPlan AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+:root {
+  --bg: #020617;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: var(--text);
+  text-align: center;
+}
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 80px 20px;
+}
+
+h1 {
+  font-size: 48px;
+  background: linear-gradient(to right, #fff, #a5b4fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.description {
+  margin-top: 20px;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+button {
+  margin-top: 40px;
+  padding: 16px 28px;
+  font-size: 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  transition: 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.features {
+  margin-top: 80px;
+  display: grid;
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 12px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>FlowPlan AI</h1>
+  <div class="subtitle">
+    Execution intelligence for real work
+  </div>
+  <div class="description">
+  Turn intent into clear, high-impact actions instantly.<br/>
+  No planning. No guessing. Just execution.
+</div>
+
+<button onclick="startApp()">Start Planning</button>
+
+    <div class="features">
+    <div class="card">⚡ Instant action plans</div>
+    <div class="card">🎯 Sales-focused execution</div>
+    <div class="card">🧠 AI decision engine</div>
+  </div>
+</div>
+<script>
+function startApp(){
+  window.open("https://deskbound-groove-oversleep.ngrok-free.dev", "_blank");
+}
+</script>
+</body>
+</html>

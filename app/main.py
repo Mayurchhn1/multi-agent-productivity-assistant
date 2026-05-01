@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
@@ -6,10 +6,19 @@ import os
 import logging
 
 from app.orchestrator import run_agent
-from app.db.database import get_plans
+from app.db.database import (
+    init_db,
+    get_plans,
+    get_tasks,
+    update_task_status,
+    fetch_active_deals_from_db,
+    save_deal,
+)
+from app.decision_engine import get_context
+from app.llm_router import run_llm_healthcheck
 
 # -----------------------------
-# 🔧 Logging Setup
+# 🔧 Logging
 # -----------------------------
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -17,71 +26,53 @@ logger = logging.getLogger(__name__)
 # -----------------------------
 # 🚀 App Init
 # -----------------------------
-app = FastAPI(
-    title="FlowPlan AI",
-    description="Multi-Agent Productivity Assistant",
-    version="4.0.0",
-    docs_url="/docs",
-    redoc_url="/redoc"
-)
+app = FastAPI(title="FlowPlan AI", version="4.0.0")
+
+init_db()
 
 # -----------------------------
 # 🌐 CORS
 # -----------------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # ⚠️ restrict in production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # -----------------------------
-# 📦 Request Model
+# 📦 Models
 # -----------------------------
 class QueryRequest(BaseModel):
     query: str
 
 
-# -----------------------------
-# 🧠 Response Models
-# -----------------------------
-class TaskItem(BaseModel):
-    task: str
-    time: str
-    type: str
-    priority: int
+class TaskStatusRequest(BaseModel):
+    status: str
 
 
-class QueryResponse(BaseModel):
-    input: str
-    mode: str
-    summary: str
-    reasoning: str
-    confidence: float
-    plan: list[TaskItem]
+class DealRequest(BaseModel):
+    client_name: str
+    stage: str
+    value: float
+    last_action: str
+    status: str = "active"
 
 
 # -----------------------------
-# 🏠 Serve UI
+# 🏠 UI
 # -----------------------------
 @app.get("/")
 def serve_ui():
-    try:
-        file_path = os.path.join(os.path.dirname(__file__), "index.html")
-
-        if not os.path.exists(file_path):
-            return {"status": "ok", "message": "Backend running (UI missing)"}
-
+    file_path = os.path.join(os.path.dirname(__file__), "index.html")
+    if os.path.exists(file_path):
         return FileResponse(file_path)
-
-    except Exception as e:
-        logger.error(f"UI load error: {str(e)}")
-        return {"status": "error"}
+    return {"status": "ok", "message": "UI not found"}
 
 
 # -----------------------------
-# 🔍 Health Check
+# ❤️ Health
 # -----------------------------
 @app.get("/health")
 def health():
@@ -92,49 +83,88 @@ def health():
     }
 
 
+@app.get("/llm/status")
+def llm_status():
+    return run_llm_healthcheck()
+
+
 # -----------------------------
-# 🤖 AI Execution Endpoint
+# 🤖 RUN AGENT
 # -----------------------------
-@app.post("/run", response_model=QueryResponse)
+@app.post("/run")
 def run(req: QueryRequest):
     try:
+        logger.info(f"Query: {req.query}")
         result = run_agent(req.query)
 
         return {
-            "input": req.query,
             "mode": result.get("mode", "general"),
             "summary": result.get("summary", ""),
-            "reasoning": result.get("reasoning", ""),
-            "confidence": result.get("confidence", 0.0),
-            "plan": result.get("plan", [])
+            "plan": result.get("plan", []),
         }
 
     except Exception as e:
         logger.error(f"/run error: {str(e)}")
-
-        return {
-            "input": req.query,
-            "mode": "error",
-            "summary": "Something went wrong",
-            "reasoning": "",
-            "confidence": 0,
-            "plan": []
-        }
+        return {"error": str(e)}
 
 
 # -----------------------------
-# 📜 History Endpoint (DB)
+# 📜 HISTORY
 # -----------------------------
 @app.get("/history")
-def history():
+def history(limit: int = Query(10)):
     try:
-        plans = get_plans()
+        return {"data": get_plans(limit)}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+# -----------------------------
+# 📋 TASKS
+# -----------------------------
+@app.get("/tasks")
+def tasks(limit: int = Query(20)):
+    return {"data": get_tasks(limit)}
+
+
+@app.patch("/tasks/{task_id}")
+def update_task(task_id: int, req: TaskStatusRequest):
+    return update_task_status(task_id, req.status)
+
+
+# -----------------------------
+# 💼 DEALS (FIXED)
+# -----------------------------
+@app.get("/deals")
+def get_deals(limit: int = Query(20)):
+    return {"data": fetch_active_deals_from_db(limit)}
+
+
+@app.post("/deals")
+def create_deal(req: DealRequest):
+    return save_deal(
+        client_name=req.client_name,
+        stage=req.stage,
+        value=req.value,
+        last_action=req.last_action,
+        status=req.status,
+    )
+
+
+# -----------------------------
+# 📊 DASHBOARD
+# -----------------------------
+@app.get("/dashboard")
+def dashboard():
+    try:
+        context = get_context(limit=5)
 
         return {
-            "count": len(plans),
-            "data": plans
+            "top_priorities": context.get("top_deals", []),
+            "pipeline": context.get("pipeline", {}),
+            "recent_actions": get_tasks(limit=5),
         }
 
     except Exception as e:
-        logger.error(f"/history error: {str(e)}")
-        return {"error": "Failed to fetch history"}
+        logger.error(f"/dashboard error: {str(e)}")
+        return {"error": "Failed to load dashboard"}
