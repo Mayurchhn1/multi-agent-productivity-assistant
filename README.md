@@ -1,14 +1,3 @@
-It looks like when you copied the text, the Markdown formatting (like tables, bullet points, and code blocks) got flattened and stuck together. GitHub needs specific symbols (like `|`, `-`, and ` ``` `) to make it look beautiful and organized.
-
-Here is the **perfectly formatted, ready-to-copy Markdown**. 
-
-### ⚠️ IMPORTANT: How to copy this correctly:
-1. Click the **"Copy code"** button in the top right corner of the black box below.
-2. Go to your `README.md` file in VS Code.
-3. Delete everything inside it.
-4. Paste it. (It will look like code with symbols—this is correct! GitHub will translate those symbols into a beautiful webpage).
-
-```markdown
 # 🤖 AI Sales Copilot: Multi-Agent Execution Engine
 
 > A context-aware LLM reasoning system that converts unstructured sales inputs into prioritized, structured execution plans. Built to eliminate decision friction and accelerate pipeline velocity.
